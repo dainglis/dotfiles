@@ -1,0 +1,340 @@
+# i3 config file (v4)
+# customized by dainglis 
+#
+# configured for Airblader's i3 "gaps"
+#
+# last updated 2020-01-31
+#
+# see /etc/i3status.conf for i3status configuration (man i3status)
+# Please see http://i3wm.org/docs/userguide.html for a complete reference!
+
+
+# set Alt to the modifier key
+# Mod1 = Alt, Mod4 = Super
+set $mod Mod1
+
+
+
+    # login setup
+
+# This font is widely installed, provides lots of unicode glyphs, right-to-left
+# text rendering and scalability on retina/hidpi displays (thanks to pango).
+font pango:DejaVu Sans Mono 8
+
+# windows will have 0 border
+for_window [class=".*"] border pixel 1
+
+# i3-gaps spacing     
+gaps inner 0
+
+# set wallpaper using feh
+exec feh --bg-scale /usr/share/images/wallpaper.jpg
+
+# execute compton, a compositing mod for window managers
+#exec --no-startup-id compton --detect-client-opacity --vsync opengl
+
+# use Mouse+$mod to drag floating windows to their wanted position
+floating_modifier $mod
+
+
+
+    # window manager commands
+
+# reload the configuration file
+bindsym $mod+Shift+c reload
+
+# restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
+bindsym $mod+Shift+r restart
+
+# exit i3 and does not ask for approval
+bindsym $mod+Control+Shift+l exec i3-msg exit
+
+# sleep pc using pm-utils
+bindsym $mod+Control+Shift+s exec sudo pm-suspend
+bindsym Mod4+s exec sudo pm-suspend
+
+# hibernate pc using pm-utils
+bindsym $mod+Control+Shift+h exec sudo pm-hibernate
+bindsym Mod4+h exec sudo pm-hibernate
+
+
+
+    # bar
+
+# i3bar and i3status style
+bar {
+    height 16
+    font pango:DejaVu Sans Mono 8
+    separator_symbol " | "
+    position top
+    status_command i3status
+    i3bar_command i3bar -t
+    colors {
+        
+        separator   #586e75
+        background  #2c2c2cb0
+        statusline  #dadada
+
+        # color_space       border      background  text
+        #
+        focused_workspace   #2c2c2cb0   #2c2c2cb0   #ffffff
+        active_workspace    #2c2c2cb0   #2c2c2cb0   #ffffff
+        inactive_workspace  #2c2c2cb0   #2c2c2cb0   #999999
+        urgent_workspace    #647a82     #647a82     #ffffff
+    }
+}
+
+
+
+    # program commands
+
+# start a terminal
+bindsym $mod+Return exec uxterm
+
+# opens a floating terminal
+bindsym $mod+Shift+Return exec --no-startup-id xterm -class UXTerm -u8 -title "uxtermf";
+for_window [title="^uxtermf$"] floating enable, move position center
+
+# start rofi (a program launcher)
+set $rofi-run rofi -show run -modi run -hide-scrollbar -font "Dejavu Sans Mono 9" -lines 10
+set $rofi-window rofi -show window -modi window -hide-scrollbar -font "Dejavu Sans Mono 9" -lines 6
+
+bindsym $mod+space exec $rofi-run
+bindsym $mod+F9 exec $rofi-run
+bindsym XF86Search exec $rofi-run
+bindsym $mod+Tab exec $rofi-window
+
+
+
+    # per-program specific options
+
+# any window with the title 'floating'
+for_window [title="^floating$"] floating enable
+
+# ensures Qalculate! calculator opens in floating mode
+# much nicer for usability
+for_window [title="^Qalculate!$"] floating enable
+
+# ensures android emulators open in floating mode
+for_window [title="(.)*Android Emulator(.)*" ] floating enable
+
+# float MS Teams notifications
+for_window [title="(.)*Microsoft Teams Notification(.)*"] floating enable
+
+
+
+    # media commands
+
+# volume controls 
+bindsym $mod+F2 exec amixer -c 0 set Master 3.5dB- -M
+bindsym $mod+F3 exec amixer -c 0 set Master 3.5dB+ -M
+bindsym $mod+F1 exec pactl set-sink-mute alsa_output.pci-0000_00_1f.3.analog-stereo toggle
+
+# volume using media keys keys : Fn+F1, F2, F3, respectively
+bindsym XF86AudioLowerVolume exec amixer -c 0 set Master 3.5dB- -M
+bindsym XF86AudioRaiseVolume exec amixer -c 0 set Master 3.5dB+ -M
+bindsym XF86AudioMute exec pactl set-sink-mute alsa_output.pci-0000_00_1f.3.analog-stereo toggle
+
+# brightness controls
+# executes brightnote script for smarter brightness control and notification
+bindsym $mod+F11 exec brightnote dec
+bindsym $mod+F12 exec brightnote inc
+#bindsym $mod+F11 exec xbacklight -dec 10
+#bindsym $mod+F12 exec xbacklight -inc 10
+
+# brightness using media keys Fn+F11, F12, respectively
+bindsym XF86MonBrightnessUp exec brightnote inc
+bindsym XF86MonBrightnessDown exec brightnote dec
+#bindsym XF86MonBrightnessUp exec xbacklight -inc 10
+#bindsym XF86MonBrightnessDown exec xbacklight -dec 10
+
+# take a screenshot of the entire screen
+bindsym Print exec "scrot ~/pictures/screenshots/%F_%H-%M-%S.png && dunstify --replace 555 screenshot captured"
+# interactive select an area to screenshot
+bindsym Shift+Print exec "scrot -s ~/pictures/screenshots/%F_%H-%M-%S.png && dunstify --replace 555 screenshot captured"
+
+    # window commands
+
+# kill focused window
+bindsym $mod+Escape kill
+bindsym $mod+Shift+q kill
+
+# toggle tiling / floating
+bindsym $mod+Shift+space floating toggle
+
+# change focus between tiling / floating windows
+bindsym $mod+Control+space focus mode_toggle
+
+# change focus
+bindsym $mod+h focus left
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+l focus right
+
+# alternatively, you can use the cursor keys:
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
+
+# move focused window
+bindsym $mod+Shift+h move left
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+l move right
+
+# alternatively, you can use the cursor keys:
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Right move right
+
+# split in horizontal orientation
+bindsym $mod+i exec "i3-msg split h && dunstify --replace 551 horizontal"
+
+# split in vertical orientation
+bindsym $mod+v exec "i3-msg split v && dunstify --replace 551 vertical"
+
+# enter fullscreen mode for the focused container
+bindsym $mod+f fullscreen toggle
+
+# change container layout (stacked, tabbed, toggle split)
+#bindsym $mod+s layout stacking
+#bindsym $mod+w layout tabbed
+bindsym $mod+e layout toggle split
+
+# focus the parent container
+bindsym $mod+a focus parent
+
+# focus the child container
+bindsym $mod+d focus child
+
+# switch to workspace
+bindsym $mod+1 workspace 1
+bindsym $mod+2 workspace 2
+bindsym $mod+3 workspace 3
+bindsym $mod+4 workspace 4
+bindsym $mod+5 workspace 5
+bindsym $mod+6 workspace 6
+bindsym $mod+7 workspace 7
+bindsym $mod+8 workspace 8
+bindsym $mod+9 workspace 9
+bindsym $mod+0 workspace 10
+
+# move focused container to workspace
+bindsym $mod+Shift+1 move container to workspace 1
+bindsym $mod+Shift+2 move container to workspace 2
+bindsym $mod+Shift+3 move container to workspace 3
+bindsym $mod+Shift+4 move container to workspace 4
+bindsym $mod+Shift+5 move container to workspace 5
+bindsym $mod+Shift+6 move container to workspace 6
+bindsym $mod+Shift+7 move container to workspace 7
+bindsym $mod+Shift+8 move container to workspace 8
+bindsym $mod+Shift+9 move container to workspace 9
+bindsym $mod+Shift+0 move container to workspace 10
+
+
+
+    # window style
+    
+# class                 border      background  text        indicator       child_border
+client.focused          #ffffff     #4a4a4a     #ffffff     #4a4a4a             
+client.focused_inactive #ffffff     #2c2c2c     #ffffff     #002b36
+client.unfocused        #ffffff     #2c2c2c     #ffffff     #002b36   
+client.urgent           #ffffff     #bbbbbb     #ffffff     #dc322f
+
+
+    
+    # MODES
+
+    # resize mode
+
+# resize window (you can also use the mouse for that)
+bindsym $mod+r mode "resize"
+
+mode "resize" {
+    # These bindings trigger as soon as you enter the resize mode
+
+    # Pressing left will shrink the window’s width.
+    # Pressing right will grow the window’s width.
+    # Pressing up will shrink the window’s height.
+    # Pressing down will grow the window’s height.
+    bindsym h resize shrink width 10 px or 10 ppt
+    bindsym j resize grow height 10 px or 10 ppt
+    bindsym k resize shrink height 10 px or 10 ppt
+    bindsym l resize grow width 10 px or 10 ppt
+
+    # same bindings, but for the arrow keys
+    bindsym Left resize shrink width 10 px or 10 ppt
+    bindsym Down resize grow height 10 px or 10 ppt
+    bindsym Up resize shrink height 10 px or 10 ppt
+    bindsym Right resize grow width 10 px or 10 ppt
+
+    # faster resize keys
+    bindsym Shift+Left resize shrink width 100 px or 100 ppt
+    bindsym Shift+Down resize grow height 100 px or 100 ppt
+    bindsym Shift+Up resize shrink height 100 px or 100 ppt
+    bindsym Shift+Right resize grow width 100 px or 100 ppt
+
+    # back to normal: Enter or Escape
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+
+
+
+    # display mode    
+
+# display mode allows changing xrandr output options
+bindsym $mod+F8 mode "display"
+
+mode "display" {
+    # disable HDMI output
+    bindsym x exec xrandr --output HDMI1 --off && dunstify --replace=552 "HDMI: off"
+
+    # extend monitor to HDMI on left
+    bindsym e exec xrandr --output HDMI1 --auto --output HDMI1 --left-of eDP1 && dunstify --replace=552 "HDMI: extend"
+
+    # duplicate monitor to HDMI
+    bindsym d exec xrandr --output HDMI1 --auto --same-as eDP1 && dunstify --replace=552 "HDMI: duplicate"
+
+    # back to normal: Enter or Escape
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+
+
+
+    # super mode
+
+# disable all i3 commands
+# useful for applications with keyboard shortcuts that are 
+# overwritten by i3 keybinds
+bindsym $mod+Super_L mode "super"
+
+mode "super" {
+    # back to normal: Enter or Escape
+    bindsym Escape mode "default"
+}
+
+
+
+    # shutdown mode
+    
+# allows initiating shutdown commands with single key press
+bindsym $mod+Delete mode "power"
+
+mode "power" {
+    # power off system
+    bindsym p exec sudo poweroff
+
+    # reboot system
+    bindsym r exec sudo reboot
+
+    # suspend system
+    bindsym s exec sudo pm-suspend && i3-msg mode "default"
+
+    # back to normal: Enter or Escape
+    bindsym Escape mode "default"
+}
+

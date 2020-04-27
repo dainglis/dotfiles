@@ -1,0 +1,31 @@
+
+xterm*loginShell: true
+
+! selection copies to clipboard
+xterm*selectToClipboard: true
+
+! font options
+xterm*faceName: pango:DejaVu Sans Mono
+xterm*faceSize: 9
+xterm*allowBoldFonts: false
+
+! pastel terminal colours
+! black, red, green, yellow, blue, magenta, cyan, gray
+xterm*foreground: rgb:f0/f0/f0
+xterm*background: rgb:2b/2b/2b
+xterm*color0: rgb:2b/2b/2b
+xterm*color1: rgb:e6/65/65
+xterm*color2: rgb:60/b4/8a
+xterm*color3: rgb:df/af/8f
+xterm*color4: rgb:9a/b8/d7
+xterm*color5: rgb:dc/8c/c3
+xterm*color6: rgb:8c/d0/d3
+xterm*color7: rgb:dc/dc/dc
+xterm*color8: rgb:92/9f/99
+xterm*color9: rgb:dc/a3/a3
+xterm*color10: rgb:72/d5/a3
+xterm*color11: rgb:f0/df/af
+xterm*color12: rgb:94/bf/f3
+xterm*color13: rgb:ec/93/d3
+xterm*color14: rgb:93/e0/e3
+xterm*color15: rgb:fc/fc/fc
