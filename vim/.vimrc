@@ -32,9 +32,6 @@ set shiftwidth=4
 " tab key inserts 4 spaces
 set expandtab
 
-" shows a visual line on the cursor's current line
-set cursorline
-
 "
 " Using Vim 8 built-in package manager
 " packages in use:
